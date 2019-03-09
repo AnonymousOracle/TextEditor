@@ -1,13 +1,14 @@
 package mainwindow;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import actionslisteners.MenuItemActionListener;
 
 public class MainWindow {
 	public JFrame frame;
@@ -18,7 +19,7 @@ public class MainWindow {
 	public MainWindow() {
 		initialize();
 	}
-	
+
 	private void initialize() {
 		frame = new JFrame();
 
@@ -30,9 +31,24 @@ public class MainWindow {
 
 		JMenu fileMenu = createMenu("File");
 		
-		JMenuItem quitItem = new JMenuItem("Quit");
-		quitItem.addActionListener(new MenuItemActionListener.QuitItemActionListener());
+		JMenuItem openItem = createMenuItem("Open");
+		openItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actEvent) {
+				JFileChooser fileChooser = new JFileChooser("/");
+				fileChooser.showOpenDialog(null);
+			}
+		});
+		
+		JMenuItem quitItem = createMenuItem("Quit");
+		quitItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent actEvent) {
+				System.exit(0);
+			}
+		});
 
+		fileMenu.add(openItem);
 		fileMenu.add(quitItem);
 
 		JMenu editMenu = createMenu("Edit");
