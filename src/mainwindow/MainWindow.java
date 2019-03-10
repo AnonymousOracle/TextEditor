@@ -6,12 +6,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JTextArea;
 
 
-public class MainWindow {
+public class MainWindow{
 	public JFrame frame;
 
 	public MainWindow() {
@@ -25,9 +27,19 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 
+		//JPanel mainPanel = new JPanel(new FlowLayout());
+		JTextArea mainTextArea = new JTextArea();
+		
+		// TODO: Organize correct layout
+		JLabel lineNumbers = new JLabel();
+		lineNumbers.setText("1");
+		
+		frame.add(lineNumbers);
+		frame.add(mainTextArea);
+
 		createMainMenuBar();
 	}
-	
+
 	public void createMainMenuBar() {
 		JMenuBar mainMenuBar = new JMenuBar();
 
@@ -41,7 +53,7 @@ public class MainWindow {
 		newFileItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actEvent) {
-				JFileChooser fileChooser = new JFileChooser("/");
+				JFileChooser fileChooser = new JFileChooser("/home" + getUserName());
 				fileChooser.showSaveDialog(null);
 			}
 		});
@@ -49,7 +61,7 @@ public class MainWindow {
 		openItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actEvent) {
-				JFileChooser fileChooser = new JFileChooser("/");
+				JFileChooser fileChooser = new JFileChooser("/home" + getUserName());
 				fileChooser.showOpenDialog(null);
 			}
 		});
@@ -57,7 +69,7 @@ public class MainWindow {
 		saveItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actEvent) {
-				JFileChooser fileChooser = new JFileChooser("/");
+				JFileChooser fileChooser = new JFileChooser("/home" + getUserName());
 				fileChooser.showSaveDialog(null);
 			}
 		});
@@ -81,5 +93,9 @@ public class MainWindow {
 		mainMenuBar.add(editMenu);
 
 		frame.setJMenuBar(mainMenuBar);
+	}
+	
+	private String getUserName() {
+		return System.getProperty("user.name");
 	}
 }
