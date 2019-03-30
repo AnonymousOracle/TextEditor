@@ -19,24 +19,21 @@ public class EditorTextArea extends JTextArea {
 	}
 	
 	public void bufferTextToArray() {
-		textAreaContainment[getCurrentLineNumber() - 1] = currentLine;
+		textAreaContainment[getCaretPosition() - 1] = currentLine;
 	}
 	
 	public void addNewLine() {
 		textAreaContainment[textAreaContainment.length] = "";
 	}
 	
-	public int getCurrentLineNumber() {
-		return textArea.getCaretPosition();
-	}
-	
 	public void wordWrap() {
-			String cutPart = currentLine.substring(MainWindow.frame.getWidth() / 5);
-			textArea.append("\n" + cutPart);
+//		String cutPart = currentLine.substring(MainWindow.frame.getWidth() / 5);
+//		textArea.append("\n" + cutPart);
+		textArea.insert("\n", getCaretPosition());
 	}
 	
 	public boolean isLineOverlength() {
-		if (getLineLength() > columns) return true;
+		if (getLineLength() >= columns) return true;
 		else return false;
 	}
 	
