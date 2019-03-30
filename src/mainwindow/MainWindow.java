@@ -1,5 +1,7 @@
 package mainwindow;
 
+import mainwindow.EditorTextArea;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Rectangle;
@@ -19,9 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class MainWindow{
-	public JFrame frame;
+	public static JFrame frame;
 
 	private int amountOfStrings = 1;
+	private int currentLine = 1;
+	private EditorTextArea textArea;
 	
 	public MainWindow() {
 		initialize();
@@ -35,15 +39,15 @@ public class MainWindow{
 		frame.setLocationRelativeTo(null);
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		JPanel editorPanel = new JPanel(new FlowLayout());
-		
-		JLabel lineNumbers = new JLabel();
-
-		lineNumbers.setText(String.valueOf(amountOfStrings));
-		
-		int rows = 1;
-		int columns = frame.getWidth() / 5;
-		JTextArea mainTextArea = new JTextArea(rows, columns);
+//		JPanel editorPanel = new JPanel(new FlowLayout());
+//		
+//		JLabel lineNumbers = new JLabel();
+//
+//		lineNumbers.setText(String.valueOf(amountOfStrings));
+//		
+//		int rows = 1;
+//		int columns = frame.getWidth() / 5;
+//		JTextArea mainTextArea = new JTextArea(rows, columns);
 //		mainTextArea.addKeyListener(new KeyAdapter() {
 //			public void keyPressed(KeyEvent keyEvent) {
 //				if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -52,16 +56,42 @@ public class MainWindow{
 //				}
 //			}
 //		});
+//		
+//		editorPanel.add(lineNumbers);
+//		editorPanel.add(mainTextArea);
+//		
+//		mainPanel.add(editorPanel, BorderLayout.WEST);
 		
-		editorPanel.add(lineNumbers);
-		editorPanel.add(mainTextArea);
+		textArea = new EditorTextArea(1);
 		
-		mainPanel.add(editorPanel, BorderLayout.WEST);
+		textArea.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent keyEvent) {
+				int caretCurrentPosition = textArea.getCaretPosition();
+				if (keyEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+					textArea.addNewLine();
+				}
+			}
+		});
+		
+		mainPanel.add(textArea);
 		frame.add(mainPanel);
 
 		createMainMenuBar();
 	}
 
+	public void redrawTextField() {
+		for (int i = 1; i <= amountOfStrings; i++) {
+			
+		}
+	}
+	public void loop() {
+		while (true) {
+			if (textArea.isLineOverlength()) {
+				textArea.wordWrap();
+			}
+		}
+	}
+	
 	public void createMainMenuBar() {
 		JMenuBar mainMenuBar = new JMenuBar();
 
